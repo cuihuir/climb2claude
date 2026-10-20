@@ -1,115 +1,115 @@
-# 第一步：检测网络环境
+# 第一步：先体检
 
 日期：2026-10-20
 
-打开 [Claude AI IP 风险检测](https://ip.net.coffee/claude/)，把标成风险的项目处理掉，再进入安装。检测在浏览器里完成，包含 DNS 和 WebRTC，命令行访问同一个网址看不到这些结果。
+打开 [咖啡店那页体检](https://ip.net.coffee/claude/)，红字和黄条清掉再谈上车。体检在浏览器里做，DNS 和 WebRTC 都算。命令行打开同一个网址，看不到这两项。
 
-不要把国内出口地址、DNS 出口地址写进仓库。
+家门地址和 DNS 落点不要写进仓库。
 
 ## 合格线
 
-| 项目 | 通过 |
+| 项目 | 过关 |
 | --- | --- |
-| 页顶提示 | 没有「当前为 IPv6 环境」 |
-| Claude AI 出口 | IPv4，并且和 Cloudflare 出口属于同一次代理出口 |
-| 信任评分 | 「纯净」，Claude 支持地区为「正常」 |
-| DNS 泄露 | 不是「可能泄露」，没有「中国DNS」 |
+| 页顶 | 没有「当前为 IPv6 环境」 |
+| Claude 落地 | IPv4，并且和 Cloudflare 那张卡片是同一次落地 |
+| 信任分 | 「纯净」，支持地区为「正常」 |
+| DNS | 不是「可能泄露」，没有「中国DNS」 |
 | WebRTC UDP | 不是「可能泄露」，归属地不是 China，出口没有「异常」 |
 | 可用性 | `claude.ai`、`anthropic.com` 为「正常」，服务状态正常 |
 
-信任分 75 以上且标成纯净，就可以留下当前节点。机房 IP 不如住宅 IP，但分数已经是纯净时，这一步不换节点。
+信任分过 75 且标成纯净，这只小鸡就先留着。机房不如家宽，分已经够纯净时，这一步不换鸡。
 
 ## 这一次的结果
 
-检测页同时给出了三张出口卡片：国内运营商 IPv4、一条美国 Cloudflare IPv4、一条美国 Claude IPv6。Claude 出口被标成机房 IP。
+体检页同时甩出三张落地卡片：家门 IPv4、一条美国 Cloudflare IPv4、一条美国 Claude IPv6。Claude 那张被标成机房。
 
-已经通过：
+已经过关：
 
 - 信任分 82，纯净，支持地区正常
-- 未检出 VPN、代理、Tor 和滥用记录
+- 页面未点出 VPN、代理、Tor 和滥用记录
 - `claude.ai` 与 `anthropic.com` 正常，约 186ms，服务全部正常
 
-尚未通过：
+还没过关：
 
-- 页顶提示当前是 IPv6，Claude 出口是 IPv6
-- 国内 IPv4 出口仍然可见，并和两条海外出口同时出现
-- DNS 为「可能泄露」，徽章是「中国DNS」，服务商为中国电信
+- 页顶说现在是 IPv6，Claude 落地也是 IPv6
+- 家门 IPv4 还在，和两条境外落地同时出现
+- DNS 为「可能泄露」，徽章是「中国DNS」，服务商是中国电信
 - WebRTC UDP 为「可能泄露」，出口标成异常，归属地是 China
 
 ## 原因
 
-本机是 Clash Verge Rev，内核是 mihomo。核对运行配置时：
+本机客户端是 Clash Verge Rev，内核是 mihomo。当时的开关是：
 
-- 系统代理开着，模式是 `rule`
-- Tun 关着
-- Clash 的 `ipv6` 为 `true`，系统也没有关闭 IPv6
-- Clash DNS 开着，但系统解析器没有使用它
+- 系统开关开着，模式是 `rule`
+- 虚拟网卡关着
+- 客户端的 `ipv6` 为 `true`，系统侧也没关 IPv6
+- 客户端自己的 DNS 开着，系统解析器没走它
 
-系统代理只接管浏览器的 HTTP 和 HTTPS。所以 Claude 和 Cloudflare 的检测走到了美国，DNS 查询和 WebRTC 的 UDP 仍从国内网络出去。检测页看到的 DNS 服务商是中国电信；系统当前的加密 DNS 是 AliDNS。这次泄露的查询没有走那条加密 DNS。
+系统开关只带走浏览器的 HTTP 和 HTTPS。所以 Claude 和 Cloudflare 的体检走到了美国，DNS 和 WebRTC 的 UDP 仍从家门出去。体检页看到的 DNS 服务商是中国电信；系统当时走的加密 DNS 是 AliDNS。漏风的那一路查询没有走这条加密 DNS。
 
-Clash 允许 IPv6 后，Claude 出口走了代理节点的 IPv6，Cloudflare 出口仍是另一条 IPv4。页顶因此出现 IPv6 警告。
+客户端允许 IPv6 之后，Claude 落地走了小鸡的 IPv6，Cloudflare 仍是另一条 IPv4。页顶因此亮起 IPv6 黄条。
 
-## 解决方法
+## 解决办法
 
-使用一台外网 VPS 的地址作为出口。在 VPS 上用 [233boy/sing-box](https://github.com/233boy/sing-box) 的[一键脚本](https://233boy.com/sing-box/sing-box-script/)建好节点，取出 VLESS 链接，再经 [VLESS to Clash](https://shipengtao.com/en/tools/vless-to-clash/) 转成 YAML，导入本机的 Clash Verge Rev。
+换一只干净的境外小鸡当地落。鸡上用 [233boy/sing-box](https://github.com/233boy/sing-box) 的[一键脚本](https://233boy.com/sing-box/sing-box-script/)把通道支起来，拿走分享串，再经 [转换页](https://shipengtao.com/en/tools/vless-to-clash/) 落成小猫能吃的粮单，喂给本机的 Clash Verge Rev。
 
-链接、UUID 和下载下来的 YAML 只留在本机，不提交到仓库。
+分享串、UUID 和粮单只留在本机，不进仓库。
 
-### 1. 准备 VPS
+### 1. 找小鸡
 
-准备一台外网 VPS。脚本支持 Ubuntu、Debian、CentOS，作者推荐 Ubuntu 22。装好后用 root 登录。
+准备一只境外小鸡。脚本认 Ubuntu、Debian、CentOS，作者更认 Ubuntu 22。装好后用 root 登上去。
 
-云厂商的安全组要放行节点端口。安装结束前端口还未知，装完再按脚本给出的端口补规则。
+云厂商那边的口子要给节点端口留门。装完之前端口还不知道，装完按脚本给出的端口补。
 
-### 2. 在 VPS 上安装 sing-box
+### 2. 把通道支起来
 
-下面这条命令在 VPS 上执行，不在本机执行。脚本来自上面的 GitHub 仓库，安装时会自动创建一条 VLESS-REALITY：
+下面这条在小鸡上跑，不在本机跑。脚本出自上面的仓库，装完会自己生出一条 VLESS-REALITY：
 
 ```bash
 bash <(wget -qO- -o- https://github.com/233boy/sing-box/raw/main/install.sh)
 ```
 
-装完后在 VPS 上用 `sb` 打开管理面板。查看链接：
+装完在小鸡上用 `sb` 进面板。看分享串：
 
 ```bash
 sb url
 ```
 
-默认只有一条配置时，这条命令会打印 VLESS 链接。复制整行，形如 `vless://...`。
+默认只有一条时，会打出整行 `vless://...`。整行复制走。
 
-端口不通时，用 `sb ip` 看 VPS 地址，再打开 [tcp.ping.pe](https://tcp.ping.pe/)，填写 `IP:端口`。显示 successful 之后再继续。脚本和配置在 VPS 的 `/etc/sing-box`。
+口子不通时，用 `sb ip` 看小鸡地址，再打开 [tcp.ping.pe](https://tcp.ping.pe/)，填 `IP:端口`。看到 successful 再往下。脚本和配置在小鸡上的 `/etc/sing-box`。
 
-### 3. 转成 Clash YAML
+### 3. 落成粮单
 
-在本机浏览器打开 [VLESS to Clash](https://shipengtao.com/en/tools/vless-to-clash/)。转换在浏览器本地完成，链接不会上传。
+本机浏览器打开 [转换页](https://shipengtao.com/en/tools/vless-to-clash/)。转换在浏览器里完成，分享串不会上传。
 
-1. 把 VLESS 链接贴进输入框，一行一条。
-2. 输出格式选 **Clash / Mihomo YAML**。本机内核是 mihomo；原版 Clash 和 Clash Premium 不支持 VLESS。
-3. 路由选 **Proxy all traffic**，让检测流量走这台 VPS。
-4. 点 Convert，再点 Download，保存 YAML 文件。
+1. 分享串贴进输入框，一行一条。
+2. 输出选 **Clash / Mihomo YAML**。本机内核是 mihomo；原版 Clash 和 Clash Premium 吃不下这种分享串。
+3. 路由选 **Proxy all traffic**，体检流量走这只小鸡。
+4. 点 Convert，再点 Download，把粮单存下来。
 
-这个文件是一次性的本地配置，不会自动更新。VPS 上的 UUID、端口或密钥变了之后，要重新 `sb url`，再转换一次。
+这张粮单是一次性的，不会自己更新。小鸡上的 UUID、端口或密钥变过之后，重新 `sb url`，再转一次。
 
-### 4. 导入 Clash Verge Rev
+### 4. 喂给小猫
 
-在 Clash Verge Rev 里：配置 → 新建 → 本地配置，选中刚下载的 YAML。启用这份配置，并选中其中的 VPS 节点。
+在 Clash Verge Rev 里：配置 → 新建 → 本地配置，选中刚落下的粮单。启用它，并选中里面那只小鸡。
 
-完全关掉做过检测的浏览器再打开。旧页面会留下上一次的 WebRTC 结果。
+做过体检的浏览器完全关掉再开。旧页面会留着上一次的 WebRTC。
 
 ## 复测
 
-刷新 [检测页](https://ip.net.coffee/claude/)，逐项对照上面的合格线。Claude 出口应变成这台 VPS 的 IPv4。六项都通过后，这一步才算完成。
+刷新 [体检页](https://ip.net.coffee/claude/)，按上面的合格线再看一遍。Claude 落地应换成这只小鸡的 IPv4。六项都过，这一步才算完。
 
-若 DNS 或 WebRTC 仍指向国内，打开 Tun，让 UDP 和 53 端口也进入这份配置，然后重新检测。
+DNS 或 WebRTC 若仍指向家门，把虚拟网卡打开，让 UDP 和 53 端口也进这份粮单，然后再测一次。
 
-## 回滚
+## 撤回
 
-在 Clash Verge Rev 里停用这份本地配置，切回原来的配置。
+在 Clash Verge Rev 里停用这份本地粮单，切回原来的配置。
 
-VPS 上卸载脚本：
+小鸡上拆掉脚本：
 
 ```bash
 sb uninstall
 ```
 
-`sb del` 会直接删除节点且不再确认。只想停用时，在客户端切走即可。
+`sb del` 会直接拆掉节点，而且不再问一声。只是想停用的话，在客户端切走就行。

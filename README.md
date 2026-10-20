@@ -15,7 +15,7 @@
 
 ## 当前状态
 
-第一步是网络检测，见 [docs/01-check-network.md](docs/01-check-network.md)。出口使用外网 VPS 上的 sing-box 节点，VLESS 链接转成 Clash YAML 后导入。2026-10-20 的检测还没有用这台新出口复测。
+第一步是体检，见 [docs/01-check-network.md](docs/01-check-network.md)。落地换成境外小鸡上的通道，分享串落成粮单后再喂给小猫。2026-10-20 的体检还没有用这只新鸡复测。
 
 ## 许可
 
