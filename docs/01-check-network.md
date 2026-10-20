@@ -83,10 +83,17 @@ sb url
 
 本机浏览器打开 [转换页](https://shipengtao.com/en/tools/vless-to-clash/)。转换在浏览器里完成，分享串不会上传。
 
-1. 分享串贴进输入框，一行一条。
+1. 分享串贴进输入框，一行一条。页面标出 **VLESS × 1** 就可以。
 2. 输出选 **Clash / Mihomo YAML**。本机内核是 mihomo；原版 Clash 和 Clash Premium 吃不下这种分享串。
+
+![贴上分享串，输出选 Clash / Mihomo YAML](images/convert-paste.jpg)
+
 3. 路由选 **Proxy all traffic**，体检流量走这只小鸡。
-4. 点 Convert，再点 Download，把粮单存下来。
+4. 点 Convert。结果是 `1 converted · 0 skipped` 时，再点 Download，把粮单存下来。
+
+![路由用 Proxy all traffic，再下载粮单](images/convert-download.png)
+
+图里的分享串和粮单正文已抹掉，只留页面上的选项。
 
 这张粮单是一次性的，不会自己更新。小鸡上的 UUID、端口或密钥变过之后，重新 `sb url`，再转一次。
 
