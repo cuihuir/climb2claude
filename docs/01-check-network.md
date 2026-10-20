@@ -49,44 +49,67 @@
 
 Clash 允许 IPv6 后，Claude 出口走了代理节点的 IPv6，Cloudflare 出口仍是另一条 IPv4。页顶因此出现 IPv6 警告。
 
-## 处理
+## 解决方法
 
-按这个顺序改 Clash Verge。只改界面里的开关，让它自己重写运行配置。
+使用一台外网 VPS 的地址作为出口。在 VPS 上用 [233boy/sing-box](https://github.com/233boy/sing-box) 的[一键脚本](https://233boy.com/sing-box/sing-box-script/)建好节点，取出 VLESS 链接，再经 [VLESS to Clash](https://shipengtao.com/en/tools/vless-to-clash/) 转成 YAML，导入本机的 Clash Verge Rev。
 
-1. 关闭 Clash 的 IPv6。先不动系统的 IPv6 开关。
-2. 打开 Tun（虚拟网卡）。系统代理可以保持打开。Tun 关闭时，53 端口和 UDP 不进 Clash，检测页的 DNS、WebRTC 会继续指向国内。
-3. 打开 Clash 的 DNS 覆写。对外解析使用走代理的 DoH，用下面两组即可：
+链接、UUID 和下载下来的 YAML 只留在本机，不提交到仓库。
 
-```yaml
-ipv6: false
-dns:
-  enable: true
-  ipv6: false
-  enhanced-mode: fake-ip
-  respect-rules: true
-  nameserver:
-    - https://1.1.1.1/dns-query
-    - https://8.8.8.8/dns-query
-  proxy-server-nameserver:
-    - 223.5.5.5
+### 1. 准备 VPS
+
+准备一台外网 VPS。脚本支持 Ubuntu、Debian、CentOS，作者推荐 Ubuntu 22。装好后用 root 登录。
+
+云厂商的安全组要放行节点端口。安装结束前端口还未知，装完再按脚本给出的端口补规则。
+
+### 2. 在 VPS 上安装 sing-box
+
+下面这条命令在 VPS 上执行，不在本机执行。脚本来自上面的 GitHub 仓库，安装时会自动创建一条 VLESS-REALITY：
+
+```bash
+bash <(wget -qO- -o- https://github.com/233boy/sing-box/raw/main/install.sh)
 ```
 
-`proxy-server-nameserver` 只负责解析代理节点自己的域名。检测页上看到的解析器来自 `nameserver`。
+装完后在 VPS 上用 `sb` 打开管理面板。查看链接：
 
-4. 保存后重载配置，完全关闭再打开做过检测的浏览器，然后重新打开检测页。旧页面会留下上一次的 WebRTC 结果。
+```bash
+sb url
+```
 
-复测时如果 DNS 服务商从中国电信变成阿里云，说明系统的 DNS over TLS 仍在直接访问 AliDNS。Tun 的 `dns-hijack: any:53` 接不住 853 端口。这时把当前网络连接的 DNS over TLS 暂时关掉，让查询进入 Tun，再次复测。
+默认只有一条配置时，这条命令会打印 VLESS 链接。复制整行，形如 `vless://...`。
 
-国内 IPv4 卡片和 WebRTC 卡片是同一类直连泄露。Tun 生效后，这两项应不再指向国内运营商。
+端口不通时，用 `sb ip` 看 VPS 地址，再打开 [tcp.ping.pe](https://tcp.ping.pe/)，填写 `IP:端口`。显示 successful 之后再继续。脚本和配置在 VPS 的 `/etc/sing-box`。
 
-关掉 IPv6 后，Claude 出口和 Cloudflare 出口应变成同一条 IPv4。若仍是两个地址，先记下来，下一步再收域名分流。
+### 3. 转成 Clash YAML
+
+在本机浏览器打开 [VLESS to Clash](https://shipengtao.com/en/tools/vless-to-clash/)。转换在浏览器本地完成，链接不会上传。
+
+1. 把 VLESS 链接贴进输入框，一行一条。
+2. 输出格式选 **Clash / Mihomo YAML**。本机内核是 mihomo；原版 Clash 和 Clash Premium 不支持 VLESS。
+3. 路由选 **Proxy all traffic**，让检测流量走这台 VPS。
+4. 点 Convert，再点 Download，保存 YAML 文件。
+
+这个文件是一次性的本地配置，不会自动更新。VPS 上的 UUID、端口或密钥变了之后，要重新 `sb url`，再转换一次。
+
+### 4. 导入 Clash Verge Rev
+
+在 Clash Verge Rev 里：配置 → 新建 → 本地配置，选中刚下载的 YAML。启用这份配置，并选中其中的 VPS 节点。
+
+完全关掉做过检测的浏览器再打开。旧页面会留下上一次的 WebRTC 结果。
 
 ## 复测
 
-刷新 [检测页](https://ip.net.coffee/claude/)，逐项对照上面的合格线。六项都通过后，这一步才算完成。
+刷新 [检测页](https://ip.net.coffee/claude/)，逐项对照上面的合格线。Claude 出口应变成这台 VPS 的 IPv4。六项都通过后，这一步才算完成。
+
+若 DNS 或 WebRTC 仍指向国内，打开 Tun，让 UDP 和 53 端口也进入这份配置，然后重新检测。
 
 ## 回滚
 
-在 Clash Verge 里把 IPv6 打开、Tun 关掉，并关闭这次加上的 DNS 覆写。系统代理恢复到修改前的状态。
+在 Clash Verge Rev 里停用这份本地配置，切回原来的配置。
 
-如果为了复测关闭过当前连接的 DNS over TLS，改回原来的加密 DNS 设置。
+VPS 上卸载脚本：
+
+```bash
+sb uninstall
+```
+
+`sb del` 会直接删除节点且不再确认。只想停用时，在客户端切走即可。
