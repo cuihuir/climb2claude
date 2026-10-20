@@ -15,7 +15,7 @@
 
 ## 当前状态
 
-仓库刚初始化。`docs/` 里还没有具体步骤。
+第一步是网络检测，见 [docs/01-check-network.md](docs/01-check-network.md)。2026-10-20 的检测里，IPv6、DNS 泄露和 WebRTC UDP 泄露还没有复测通过。
 
 ## 许可
 
