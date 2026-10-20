@@ -16,8 +16,8 @@
 | DNS | 不是「可能泄露」，没有「中国DNS」 |
 | WebRTC UDP | 不是「可能泄露」，归属地不是 China，出口没有「异常」 |
 | 可用性 | `claude.ai`、`anthropic.com` 为「正常」，服务状态正常 |
-| 时区 | `Asia/Singapore` 或 `Asia/Taipei`，页上没有中国大陆时区黄标 |
-| 语言 | 系统语言可保持原样；浏览器第一语言与落地一致 |
+| 时区 | `America/Los_Angeles`；落地在东岸时用 `America/New_York` |
+| 语言 | 系统语言和浏览器第一语言都是英语 |
 
 信任分过 75 且标成纯净，这只小鸡就先留着。机房不如家宽，分已经够纯净时，这一步不换鸡。
 
@@ -107,37 +107,38 @@ sb url
 
 ## 时区和语言
 
-体检页读的是本机时区名。`Asia/Shanghai` 和 `Asia/Urumqi` 会黄标。新加坡、台北仍是东八区，钟面不变。系统语言和输入法不用动。
+体检页读的是本机时区名。用美国时区，语言用英语。西岸 `America/Los_Angeles`，落地在东岸就换成 `America/New_York`。钟面会和北京时间差一截。
 
-浏览器把落地对应的语言放在第一位，中文留在后面。Chrome、Edge、Firefox 都在设置里的「语言」。
+Chrome、Edge、Firefox 都在设置里的「语言」，把 English 放到第一位。
 
 改完刷新体检页。
 
 ### Linux
 
 ```bash
-timedatectl set-timezone Asia/Singapore
+timedatectl set-timezone America/Los_Angeles
+localectl set-locale LANG=en_US.UTF-8
 ```
 
-台北把最后一项换成 `Asia/Taipei`。撤回时改回 `Asia/Shanghai`。
+东岸把时区换成 `America/New_York`。撤回时区用 `Asia/Shanghai`，语言用原来的 `LANG`。
 
 ### macOS
 
-系统设置 → 通用 → 日期与时间，关掉自动时区，选新加坡或台北。
+系统设置 → 通用 → 日期与时间，关掉自动时区，选洛杉矶或纽约。语言与地区里把英语放第一。
 
 ```bash
-sudo systemsetup -settimezone Asia/Singapore
+sudo systemsetup -settimezone America/Los_Angeles
 ```
 
 ### Windows
 
-设置 → 时间和语言 → 日期和时间，关掉自动设置时区，选新加坡或台北。
+设置 → 时间和语言 → 日期和时间，关掉自动设置时区，选太平洋时间或东部时间。语言里把 English 放第一。
 
 ```powershell
-Set-TimeZone -Id "Singapore Standard Time"
+Set-TimeZone -Id "Pacific Standard Time"
 ```
 
-台北的名字是 `Taipei Standard Time`。
+东岸的名字是 `Eastern Standard Time`。
 
 ## 复测
 
