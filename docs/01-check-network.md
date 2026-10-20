@@ -16,6 +16,8 @@
 | DNS | 不是「可能泄露」，没有「中国DNS」 |
 | WebRTC UDP | 不是「可能泄露」，归属地不是 China，出口没有「异常」 |
 | 可用性 | `claude.ai`、`anthropic.com` 为「正常」，服务状态正常 |
+| 时区 | `Asia/Singapore` 或 `Asia/Taipei`，页上没有中国大陆时区黄标 |
+| 语言 | 系统语言可保持原样；浏览器第一语言与落地一致 |
 
 信任分过 75 且标成纯净，这只小鸡就先留着。机房不如家宽，分已经够纯净时，这一步不换鸡。
 
@@ -102,6 +104,40 @@ sb url
 在 Clash Verge Rev 里：配置 → 新建 → 本地配置，选中刚落下的粮单。启用它，并选中里面那只小鸡。
 
 做过体检的浏览器完全关掉再开。旧页面会留着上一次的 WebRTC。
+
+## 时区和语言
+
+体检页读的是本机时区名。`Asia/Shanghai` 和 `Asia/Urumqi` 会黄标。新加坡、台北仍是东八区，钟面不变。系统语言和输入法不用动。
+
+浏览器把落地对应的语言放在第一位，中文留在后面。Chrome、Edge、Firefox 都在设置里的「语言」。
+
+改完刷新体检页。
+
+### Linux
+
+```bash
+timedatectl set-timezone Asia/Singapore
+```
+
+台北把最后一项换成 `Asia/Taipei`。撤回时改回 `Asia/Shanghai`。
+
+### macOS
+
+系统设置 → 通用 → 日期与时间，关掉自动时区，选新加坡或台北。
+
+```bash
+sudo systemsetup -settimezone Asia/Singapore
+```
+
+### Windows
+
+设置 → 时间和语言 → 日期和时间，关掉自动设置时区，选新加坡或台北。
+
+```powershell
+Set-TimeZone -Id "Singapore Standard Time"
+```
+
+台北的名字是 `Taipei Standard Time`。
 
 ## 复测
 
