@@ -144,11 +144,23 @@ Set-TimeZone -Id "Pacific Standard Time"
 
 刷新 [体检页](https://ip.net.coffee/claude/)，按上面的合格线再看一遍。Claude 落地应换成这只小鸡的 IPv4。六项都过，这一步才算完。
 
-DNS 或 WebRTC 若仍指向家门，把虚拟网卡打开，让 UDP 和 53 端口也进这份粮单，然后再测一次。
+## WebRTC 的 UDP
+
+体检页上的 UDP 出口若还是家门、归属地 China、旁边写着异常，是因为系统开关只带走网页的 HTTPS。浏览器查 WebRTC 时走 UDP，这条没进通道，就从家门直接出去了。
+
+要让它变成境外落地：
+
+1. 粮单里这条节点保持 `udp: true`。现在这份已经是。
+2. 在 Clash Verge Rev 首页打开虚拟网卡。系统开关可以留着。打开时若要装服务，按提示授权。服务程序在本机的 `clash-verge-service`。
+3. 完全退出做过体检的浏览器，再打开，重新点「深度查询」。
+
+过关的样子：UDP 出口不再是家门地址，归属地离开 China，并且和 Claude 那张落地是同一只小鸡。
+
+虚拟网卡打开后若仍是家门，到 Clash 的 Tun 设置里打开严格路由，再测一次。UDP 出口变成空白，多半是小鸡没转发 UDP，回小鸡用 `sb` 看这条配置。
 
 ## 撤回
 
-在 Clash Verge Rev 里停用这份本地粮单，切回原来的配置。
+在 Clash Verge Rev 里停用这份本地粮单，切回原来的配置。虚拟网卡也在首页关掉。
 
 小鸡上拆掉脚本：
 
