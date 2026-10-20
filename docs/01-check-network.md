@@ -23,7 +23,9 @@
 
 ## 这一次的结果
 
-体检页同时甩出三张落地卡片：家门 IPv4、一条美国 Cloudflare IPv4、一条美国 Claude IPv6。Claude 那张被标成机房。
+![体检页：黄条、三张落地、信任分、DNS 和 WebRTC](images/check-page.jpg)
+
+体检页同时甩出三张落地卡片：家门 IPv4、一条美国 Cloudflare IPv4、一条美国 Claude IPv6。Claude 那张被标成机房。图里的地址已抹掉。
 
 已经过关：
 
