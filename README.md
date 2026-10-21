@@ -6,16 +6,18 @@
 
 ## 记录范围
 
-- 安装和运行环境
-- 登录与网络
-- 日常用法
-- 已经踩过、并且能复现的问题
+按四段走，目录在 [`docs/`](docs/README.md)。
 
-笔记放在 [`docs/`](docs/README.md)。每篇只写验证过的步骤、预期结果和回退方法。
+1. 环境
+2. 养号
+3. 充值
+4. 保养
+
+每篇只写验证过的步骤、预期结果和回退方法。
 
 ## 当前状态
 
-客户端见 [docs/clients.md](docs/clients.md)。选鸡见 [docs/digvps.md](docs/digvps.md)。体检站见 [docs/net-coffee.md](docs/net-coffee.md)。第一步是体检，见 [docs/01-check-network.md](docs/01-check-network.md)。落地换成境外小鸡上的通道，分享串落成粮单后再喂给小猫。第二步是养号，见 [docs/02-warmup.md](docs/02-warmup.md)：同一套环境登进去，没事聊几句。WebRTC 的 UDP 已用虚拟网卡核对通过。整页还没有复测。
+环境和养号已有笔记。充值和保养还空着。WebRTC 的 UDP 已用虚拟网卡核对通过，整页体检还没有复测。
 
 ## 许可
 
