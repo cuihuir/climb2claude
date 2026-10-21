@@ -15,7 +15,7 @@
 
 ## 当前状态
 
-体检站见 [docs/net-coffee.md](docs/net-coffee.md)。第一步是体检，见 [docs/01-check-network.md](docs/01-check-network.md)。落地换成境外小鸡上的通道，分享串落成粮单后再喂给小猫。第二步是养号，见 [docs/02-warmup.md](docs/02-warmup.md)：同一套环境登进去，没事聊几句。WebRTC 的 UDP 已用虚拟网卡核对通过。整页还没有复测。
+选鸡见 [docs/digvps.md](docs/digvps.md)。体检站见 [docs/net-coffee.md](docs/net-coffee.md)。第一步是体检，见 [docs/01-check-network.md](docs/01-check-network.md)。落地换成境外小鸡上的通道，分享串落成粮单后再喂给小猫。第二步是养号，见 [docs/02-warmup.md](docs/02-warmup.md)：同一套环境登进去，没事聊几句。WebRTC 的 UDP 已用虚拟网卡核对通过。整页还没有复测。
 
 ## 许可
 

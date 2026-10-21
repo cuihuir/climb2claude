@@ -63,7 +63,7 @@
 
 ### 1. 找小鸡
 
-准备一只境外小鸡。脚本认 Ubuntu、Debian、CentOS，作者更认 Ubuntu 22。装好后用 root 登上去。
+准备一只境外小鸡。先到 [选鸡](digvps.md) 看线路再买。脚本认 Ubuntu、Debian、CentOS，作者更认 Ubuntu 22。装好后用 root 登上去。
 
 云厂商那边的口子要给节点端口留门。装完之前端口还不知道，装完按脚本给出的端口补。
 
