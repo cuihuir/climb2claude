@@ -4,6 +4,10 @@
 
 仓库说明：hard to climb to claude。
 
+2026-10-13 的号被暂停。对话和数据还在，可以申请审核。
+
+![账户已暂停](docs/images/account-paused.jpg)
+
 ## 记录范围
 
 按四段走，目录在 [`docs/`](docs/README.md)。
