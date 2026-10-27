@@ -11,3 +11,10 @@ local/
 .env
 .env.*
 *.log
+
+# Generated Clash profiles stay on this machine
+*.yaml
+
+# Python
+__pycache__/
+*.py[cod]

@@ -57,7 +57,7 @@
 
 ## 解决办法
 
-换一只干净的境外小鸡当地落。鸡上用 [233boy/sing-box](https://github.com/233boy/sing-box) 的[一键脚本](https://233boy.com/sing-box/sing-box-script/)把通道支起来，拿走分享串，再经 [转换页](https://shipengtao.com/en/tools/vless-to-clash/) 落成小猫能吃的粮单，喂给本机的 Clash Verge Rev。
+换一只干净的境外小鸡当地落。鸡上用 [233boy/sing-box](https://github.com/233boy/sing-box) 的[一键脚本](https://233boy.com/sing-box/sing-box-script/)把通道支起来，拿走分享串或订阅，再用仓库里的 `tools/sub2clash.py` 在本机落成小猫能吃的粮单，喂给本机的 Clash Verge Rev。
 
 分享串、UUID 和粮单只留在本机，不进仓库。
 
@@ -87,21 +87,39 @@ sb url
 
 ### 3. 落成粮单
 
-本机浏览器打开 [转换页](https://shipengtao.com/en/tools/vless-to-clash/)。转换在浏览器里完成，分享串不会上传。
+分享串和订阅正文留在本机。用仓库里的 `tools/sub2clash.py` 转成 Clash / Mihomo 粮单，不把内容交给网上的转换页。本机内核是 mihomo；原版 Clash 和 Clash Premium 吃不下这种分享串。
 
-1. 分享串贴进输入框，一行一条。页面标出 **VLESS × 1** 就可以。
-2. 输出选 **Clash / Mihomo YAML**。本机内核是 mihomo；原版 Clash 和 Clash Premium 吃不下这种分享串。
+在终端里直接跑，会一条一条问分享串，问完再问要生成的文件名。直接回车结束输入。文件名空着时写成 `clash.yaml`：
 
-![贴上分享串，输出选 Clash / Mihomo YAML](images/convert-paste.jpg)
+```bash
+python3 tools/sub2clash.py
+```
 
-3. 路由选 **Proxy all traffic**，体检流量走这只小鸡。
-4. 点 Convert。结果是 `1 converted · 0 skipped` 时，再点 Download，把粮单存下来。
+已经存成文件时，不需要网络，一条命令完成。一行一条分享串，也可以是订阅接口返回的 Base64：
 
-![路由用 Proxy all traffic，再下载粮单](images/convert-download.png)
+```bash
+python3 tools/sub2clash.py links.txt -o clash.yaml
+```
 
-图里的分享串和粮单正文已抹掉，只留页面上的选项。
+`sb url` 打出来的整段也可以直接存进 `links.txt`，工具会从里面拣出分享串。
 
-这张粮单是一次性的，不会自己更新。小鸡上的 UUID、端口或密钥变过之后，重新 `sb url`，再转一次。
+订阅地址还在网上时，只把正文拉下来，转换仍在本机：
+
+```bash
+python3 tools/sub2clash.py --url '订阅地址' -o clash.yaml
+```
+
+终端打出 `1 converted, 0 skipped` 就可以。粮单默认把全部流量交给这只小鸡，并写上 `ipv6: false`。节点带 `udp: true`。
+
+交互式在写文件名前会问要不要在线获取最新的中国大陆规则。选是的话，从 [Loyalsoldier/clash-rules](https://github.com/Loyalsoldier/clash-rules) 的最新发布拉下大陆域名和大陆 IP 段，写进同一个粮单。局域网、大陆域名和大陆 IP 直连，其余走代理。一步式加上 `--cn`：
+
+```bash
+python3 tools/sub2clash.py links.txt -o clash.yaml --cn
+```
+
+只导入这一个文件。不选的话，粮单仍是全部走代理。
+
+这张粮单是一次性的，不会自己更新。小鸡上的 UUID、端口或密钥变过之后，重新拿分享串或订阅，再转一次。
 
 ### 4. 喂给客户端
 
