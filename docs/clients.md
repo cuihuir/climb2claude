@@ -14,3 +14,5 @@
 FlClash 覆盖 Android、Windows、macOS、Linux。手机用它。桌面和手机都能从本地粮单或订阅导入。Fedora 上若用 AppImage 或 rpm，托盘图标需要 `libayatana-appindicator-gtk3`。
 
 两个都从各自仓库的 Releases 下包，不在这里写死版本号。
+
+Claude Code 要借用已部署的远端 Magpie 时，见 [SSH 远程接入教程](claude-ssh.md)。教程配有 Windows / Linux 启动脚本，文件和工具仍在本机运行。

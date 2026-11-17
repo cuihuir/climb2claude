@@ -1,0 +1,7 @@
+{
+  "host": "ssh.example.invalid",
+  "user": "claude-tunnel",
+  "ssh_port": 22,
+  "local_port": 13425,
+  "remote_port": 3425
+}

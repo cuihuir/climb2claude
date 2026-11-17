@@ -12,6 +12,9 @@ local/
 .env.*
 *.log
 
+# Private SSH connection settings; keep the example in version control
+/tools/claude-ssh/connection.json
+
 # Generated Clash profiles stay on this machine
 *.yaml
 

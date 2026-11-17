@@ -4,7 +4,7 @@
 
 ## 环境
 
-先把落地、时区、语言和客户端备好，再上车。
+先把落地、时区、语言和客户端备好，再上车。已有远端 Magpie 的 Claude Code 用户，也可以按 SSH 教程接入。
 
 | 主题 | 文件 | 状态 |
 | --- | --- | --- |
@@ -12,6 +12,7 @@
 | 体检站 | [net-coffee.md](net-coffee.md) | 已收录 ip.net.coffee |
 | 选鸡 | [digvps.md](digvps.md) | 已收录 digvps.com |
 | 客户端 | [clients.md](clients.md) | 已收录小猫和 FlClash |
+| Claude Code 远程接入 | [claude-ssh.md](claude-ssh.md) | SSH 本地端口转发、密钥授权、Windows / Linux 启动、排障与回滚 |
 
 ## 养号
 
